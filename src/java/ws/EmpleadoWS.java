@@ -79,5 +79,4 @@ public class EmpleadoWS {
 
         return mensaje;
     }
-
 }
