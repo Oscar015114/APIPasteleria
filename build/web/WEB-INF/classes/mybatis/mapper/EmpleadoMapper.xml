@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="empleado">
+    <insert id="registrar" parameterType="modelo.pojo.Empleado">
+       INSERT INTO empleado (nombre, apellidoPaterno, apellidoMaterno, username, contrasenia, fechaNacimiento, sexo, idRolEmpleado) VALUES
+       (#{nombre}, #{apellidoPaterno}, #{apellidoMaterno}, #{username}, #{contrasenia}, #{fechaNacimiento}, #{sexo}, #{idRolEmpleado});  
+    </insert>
+    
+    <select id="buscarRepetido" resultType="modelo.pojo.Empleado" parameterType="modelo.pojo.Empleado">
+        SELECT idEmpleado FROM empleado WHERE username = #{username};
+    </select>
+    
+    <update id="editar" parameterType="modelo.pojo.Empleado">
+        UPDATE empleado SET nombre = #{nombre}, apellidoPaterno = #{apellidoPaterno}, apellidoMaterno = #{apellidoMaterno}, username = #{username},
+        conrasenia = #{contrasenia}, fechaNacimiento = #{fechanacimiento}, sexo = #{sexo}, idRolEmpleado = #{idRolEmpleado}
+        WHERE idEmpleado = #{idEmpleado};
+    </update>
+    
+    <delete id="eliminar" parameterType="int">
+        DELETE FROM empleado where idEmpleado = #{idEmpleado};
+    </delete>
+</mapper>
