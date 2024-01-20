@@ -42,7 +42,7 @@ public class EmpleadoDAO {
                     msj.setContenido("Ya existe un empleado con el mismo username");
                     return msj;
                 }
-                int filasAfectadas = conexionDB.insert("empleado.registrar");
+                int filasAfectadas = conexionDB.insert("empleado.registrar", empleado);
                 conexionDB.commit();
 
                 if (filasAfectadas != 0) {
