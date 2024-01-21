@@ -71,12 +71,56 @@ public class EmpleadoWS {
         if (idRolEmpleado == null || idRolEmpleado != Constantes.ID_ROL_COMERCIAL && idRolEmpleado != Constantes.ID_ROL_GENERAL) {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
-        if(idRolEmpleado == Constantes.ID_ROL_GENERAL){
-        mensaje = EmpleadoDAO.registrarEmpleado(nombre, apellidoPaterno, apellidoMaterno, username, contrasenia, fechaNacimiento, sexo, idRolEmpleado);
+        if (idRolEmpleado == Constantes.ID_ROL_GENERAL) {
+            mensaje = EmpleadoDAO.registrarEmpleado(nombre, apellidoPaterno, apellidoMaterno, username, contrasenia, fechaNacimiento, sexo, idRolEmpleado);
         }
-        
+
         mensaje = EmpleadoDAO.registrarEmpleado(nombre, apellidoPaterno, apellidoMaterno, username, contrasenia, fechaNacimiento, sexo, idRolEmpleado);
 
+        return mensaje;
+    }
+
+    @PUT
+    @Path("editarEmpleado")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje editarEmpleado(
+            @FormParam("nombre") String nombre, @FormParam("apellidoPaterno") String apellidoPaterno,
+            @FormParam("apellidoMaterno") String apellidoMaterno, @FormParam("username") String username,
+            @FormParam("contrasenia") String contrasenia, @FormParam("fechaNacimiento") String fechaNacimiento,
+            @FormParam("sexo") String sexo, @FormParam("idEmpleado") Integer idEmpleado) {
+
+        if (idEmpleado == null || idEmpleado <=0 ){
+        throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+        
+        if (nombre == null || nombre.isEmpty()) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+
+        if (apellidoPaterno == null || apellidoPaterno.isEmpty()) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+
+        if (apellidoMaterno == null || apellidoMaterno.isEmpty()) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+        if (username == null || username.isEmpty()) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+
+        if (contrasenia == null || contrasenia.isEmpty()) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+
+        if (fechaNacimiento == null || fechaNacimiento.isEmpty()) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+        if (sexo == null || sexo.isEmpty()) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+
+        Mensaje mensaje = EmpleadoDAO.editarEmpleado(nombre, apellidoPaterno, apellidoMaterno, username, contrasenia, fechaNacimiento, sexo, idEmpleado);
+        
         return mensaje;
     }
 }
