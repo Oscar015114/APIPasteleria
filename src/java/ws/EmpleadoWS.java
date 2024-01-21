@@ -9,6 +9,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -122,5 +123,18 @@ public class EmpleadoWS {
         Mensaje mensaje = EmpleadoDAO.editarEmpleado(nombre, apellidoPaterno, apellidoMaterno, username, contrasenia, fechaNacimiento, sexo, idEmpleado);
         
         return mensaje;
+    }
+    
+    @DELETE
+    @Path("eliminarEmpleado")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje eliminarEmpleado(@FormParam("idEmpleado") Integer idEmpleado){
+    
+    if (idEmpleado == null || idEmpleado <=0 ){
+        throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }
+    Mensaje mensaje = EmpleadoDAO.eliminarEmpleado(idEmpleado);
+    
+    return mensaje;
     }
 }
