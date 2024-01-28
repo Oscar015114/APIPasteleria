@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="producto">
+    
+    <insert id="registroProducto" parameterType="modelo.pojo.Producto">
+        INSERT INTO producto(nombreProducto, fechaCreacion, fechaCaducidad) 
+        VALUES(#{nombreProducto}, #{fechaCreacion}, #{fechaCaducidad})
+    </insert>
+    
+    <select id="obtenerProductos" resultType="modelo.pojo.Producto">
+        SELECT idProducto, nombreProducto, fechaCreacion, fechaCaducidad 
+        FROM producto
+    </select>
+    
+    <update id="editarProducto" parameterType="modelo.pojo.Producto" >
+        UPDATE producto SET nombreProducto=#{nombreProducto}, fechaCreacion=#{fechaCreacion}, fechaCaducidad=#{fechaCaducidad} 
+        WHERE idProducto=#{idProducto}
+    </update>
+    
+    <delete id="eliminarProducto" parameterType="modelo.pojo.Producto">
+        DELETE FROM producto 
+        WHERE idProducto=#{idProducto}
+    </delete>
+</mapper>
