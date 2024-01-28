@@ -11,6 +11,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import java.util.List;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -100,7 +101,7 @@ public class ProductoWS {
             if((producto.getIdProducto() == null || producto.getIdProducto() < 0) || (producto == null)){
                 throw new WebApplicationException(Response.Status.BAD_REQUEST);
             }else{
-                return ProductoDAO
+                return ProductoDAO.eliminarProducto(producto);
             }
         }
     }
