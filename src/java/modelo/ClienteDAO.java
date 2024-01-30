@@ -5,10 +5,8 @@
  */
 package modelo;
 
-import java.util.ArrayList;
-import java.util.List;
+import modelo.pojo.Cliente;
 import modelo.pojo.Mensaje;
-import modelo.pojo.Producto;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
@@ -16,25 +14,24 @@ import org.apache.ibatis.session.SqlSession;
  *
  * @author cr7_k
  */
-public class ProductoDAO {
+public class ClienteDAO {
     
-    public static Mensaje registrarProducto(Producto producto){
+    public static Mensaje registrarCliente(Cliente cliente){
         Mensaje respuesta = new Mensaje();
         respuesta.setError(true);
         SqlSession conexionBD = MyBatisUtil.getSession();
         if(conexionBD != null){
             try{
                 
-                int filasAfectadas = conexionBD.insert("producto.registroProducto", producto);
+                int filasAfectadas = conexionBD.insert("cliente.registrarCliente", cliente);
                 conexionBD.commit();
                 
                 if(filasAfectadas > 0){
                     respuesta.setError(false);
-                    respuesta.setContenido("Registro éxitoso");
+                    respuesta.setContenido("Registro exitoso");
                 }else{
                     respuesta.setContenido("Error al registrar");
                 }
-                
             }catch(Exception e){
                 respuesta.setContenido("Error: " + e.getMessage());
             }finally{
@@ -46,23 +43,22 @@ public class ProductoDAO {
         return respuesta;
     }
     
-    public static Mensaje modificarProducto(Producto producto){
+    public static Mensaje modificarCliente(Cliente cliente){
         Mensaje respuesta = new Mensaje();
-        respuesta.setError(false);
+        respuesta.setError(true);
         SqlSession conexionBD = MyBatisUtil.getSession();
         if(conexionBD != null){
             try{
                 
-                int filasAfectadas = conexionBD.update("producto.editarProducto", producto);
+                int filasAfectadas = conexionBD.update("cliente.editarCliente", cliente);
                 conexionBD.commit();
                 
                 if(filasAfectadas > 0){
                     respuesta.setError(false);
-                    respuesta.setContenido("Modificación exitosa");
+                    respuesta.setContenido("Modificacion exitosa");
                 }else{
                     respuesta.setContenido("Error al modificar");
                 }
-                
             }catch(Exception e){
                 respuesta.setContenido("Error: " + e.getMessage());
             }finally{
@@ -75,34 +71,18 @@ public class ProductoDAO {
         return respuesta;
     }
     
-    
-    public static List<Producto> solicitarProductos(){
-        List<Producto> productos = new ArrayList<>();
-        SqlSession conexionBD = MyBatisUtil.getSession();
-        if(conexionBD != null){
-            try{
-                productos = conexionBD.selectList("producto.obtenerProductos");
-            }catch(Exception e){
-                e.printStackTrace();
-            }finally{
-                conexionBD.close();
-            }
-        }
-        
-        return productos;
-    }
-    
-    public static Mensaje eliminarProducto(Producto producto){
+    public static Mensaje eliminarCliente(Cliente cliente){
         Mensaje respuesta = new Mensaje();
-        SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
+        SqlSession conexionBD = MyBatisUtil.getSession();
         if(conexionBD != null){
             try{
-                int filasAfectadas = conexionBD.delete("producto.eliminarProducto", producto);
+                int filasAfectadas = conexionBD.delete("cliente.eliminarCliente", cliente);
                 conexionBD.commit();
+                
                 if(filasAfectadas > 0){
                     respuesta.setError(false);
-                    respuesta.setContenido("Eliminación exitosa");
+                    respuesta.setContenido("Eliminacion exitosa");
                 }else{
                     respuesta.setContenido("Error al eliminar");
                 }
@@ -116,5 +96,5 @@ public class ProductoDAO {
         }
         
         return respuesta;
-}
+    }
 }
