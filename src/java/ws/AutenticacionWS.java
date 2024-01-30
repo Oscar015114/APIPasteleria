@@ -5,6 +5,8 @@
  */
 package ws;
 
+import com.google.gson.Gson;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -15,7 +17,9 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import modelo.AutenticacionDAO;
-import modelo.pojo.Mensaje;
+import modelo.pojo.Cliente;
+import modelo.pojo.MensajeCliente;
+import modelo.pojo.MensajeEmpleado;
 
 /**
  * REST Web Service
@@ -41,17 +45,36 @@ public class AutenticacionWS {
     @POST
     @Path("iniciarSesionEscritorio")
     @Produces(MediaType.APPLICATION_JSON)
-    public Mensaje iniciarSesionEscritorio(
+    public MensajeEmpleado iniciarSesionEscritorio(
             @FormParam("username") String username,
             @FormParam("contrasenia") String contrasenia) {
 
-        Mensaje mensaje = new Mensaje();
         if (!username.isEmpty() && !contrasenia.isEmpty()) {
-            mensaje = AutenticacionDAO.iniciarSesionEscritorio(username, contrasenia);
+            return AutenticacionDAO.iniciarSesionEscritorio(username, contrasenia);
         } else {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
-
-        return mensaje;
+    }
+    
+    @POST
+    @Path("iniciarSesionMovil")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public MensajeCliente iniciarSesionMovil(String json){
+        if(json.isEmpty()){
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        }else{
+            Gson gson = new Gson();
+            Cliente cliente = gson.fromJson(json, Cliente.class);
+            
+            if(cliente.getCorreo() == null || cliente.getCorreo().isEmpty()){
+                throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            }
+            if(cliente.getContrasenia() == null || cliente.getContrasenia().isEmpty()){
+                throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            }
+            
+            return AutenticacionDAO.iniciarSesionMovil(cliente);
+        }
     }
 }

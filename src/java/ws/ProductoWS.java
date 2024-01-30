@@ -102,7 +102,6 @@ public class ProductoWS {
                 throw new WebApplicationException(Response.Status.BAD_REQUEST);
             }else{
                 return ProductoDAO.eliminarProducto(producto);
-                
             }
         }
     }
