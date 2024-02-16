@@ -8,6 +8,7 @@ package modelo;
 import java.util.List;
 import modelo.pojo.Empleado;
 import modelo.pojo.Mensaje;
+import modelo.pojo.Rol;
 import org.apache.ibatis.session.SqlSession;
 
 /**
@@ -133,6 +134,58 @@ public class EmpleadoDAO {
                 conexionDB.close();
             }
 
+        }
+        return msj;
+    }
+
+    public static Mensaje buscarEmpleados(Integer idEmpleado) {
+        Mensaje msj = new Mensaje();
+        msj.setError(Boolean.TRUE);
+        SqlSession conexionDB = mybatis.MyBatisUtil.getSession();
+        if (conexionDB != null) {
+            try {
+                List<Empleado> consulta = conexionDB.selectList("empleado.buscarEmpleados", idEmpleado);
+                msj.setEmpleados(consulta);
+
+                if (!consulta.isEmpty()) {
+                    msj.setError(Boolean.FALSE);
+                    msj.setContenido("Respuesta Exitosa");
+                } else {
+                    msj.setContenido("No hay empleados registrados");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                msj.setContenido("Error: " + e);
+            } finally {
+                conexionDB.close();
+            }
+
+        }
+        return msj;
+    }
+
+    public static Mensaje buscarRoles() {
+        Mensaje msj = new Mensaje();
+        msj.setError(Boolean.TRUE);
+        SqlSession conexionDB = mybatis.MyBatisUtil.getSession();
+
+        if (conexionDB != null) {
+            try {
+                List<Rol> listaRol = conexionDB.selectList("empleado.buscarRoles");
+                msj.setRoles(listaRol);
+
+                if (!listaRol.isEmpty()) {
+                    msj.setError(Boolean.FALSE);
+                    msj.setContenido("Respuesta exitosa");
+                } else {
+                    msj.setContenido("No hay roles registrados");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                msj.setContenido("Error: " + e);
+            } finally {
+                conexionDB.close();
+            }
         }
         return msj;
     }

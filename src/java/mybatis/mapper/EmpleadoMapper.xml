@@ -24,4 +24,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="eliminar" parameterType="int">
         DELETE FROM empleado where idEmpleado = #{idEmpleado};
     </delete>
+    
+    <select id="buscarRoles" resultType="modelo.pojo.Rol">
+        SELECT * FROM rolEmpleado;
+    </select>
+    
+    <select id="buscarEmpleados" resultType="modelo.pojo.Empleado" parameterType="int">
+        SELECT e.*, r.rol AS nombreRol
+        FROM empleado e
+        LEFT JOIN rolEmpleado r ON e.idRolEmpleado = r.idRolEmpleado
+        WHERE idEmpleado != #{idEmpleado}
+    </select>
 </mapper>

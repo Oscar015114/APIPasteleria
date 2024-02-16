@@ -14,13 +14,33 @@ import java.util.List;
 public class Mensaje {
     private Boolean error;
     private String contenido;
+    private List<Empleado> empleados;
+    private List<Rol> roles;
     
     public Mensaje() {
     }
 
-    public Mensaje(Boolean error, String contenido) {
+    public Mensaje(Boolean error, String contenido, List<Empleado> empleados, List<Rol> roles) {
         this.error = error;
         this.contenido = contenido;
+        this.empleados = empleados;
+        this.roles = roles;
+    }
+
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+
+    public List<Empleado> getEmpleados() {
+        return empleados;
+    }
+
+    public void setEmpleados(List<Empleado> empleados) {
+        this.empleados = empleados;
     }
 
     public Boolean getError() {

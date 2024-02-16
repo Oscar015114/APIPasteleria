@@ -15,6 +15,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -90,10 +91,10 @@ public class EmpleadoWS {
             @FormParam("contrasenia") String contrasenia, @FormParam("fechaNacimiento") String fechaNacimiento,
             @FormParam("sexo") String sexo, @FormParam("idEmpleado") Integer idEmpleado) {
 
-        if (idEmpleado == null || idEmpleado <=0 ){
-        throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        if (idEmpleado == null || idEmpleado <= 0) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
-        
+
         if (nombre == null || nombre.isEmpty()) {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
@@ -121,20 +122,38 @@ public class EmpleadoWS {
         }
 
         Mensaje mensaje = EmpleadoDAO.editarEmpleado(nombre, apellidoPaterno, apellidoMaterno, username, contrasenia, fechaNacimiento, sexo, idEmpleado);
-        
+
         return mensaje;
     }
-    
+
     @DELETE
     @Path("eliminarEmpleado")
     @Produces(MediaType.APPLICATION_JSON)
-    public Mensaje eliminarEmpleado(@FormParam("idEmpleado") Integer idEmpleado){
-    
-    if (idEmpleado == null || idEmpleado <=0 ){
-        throw new WebApplicationException(Response.Status.BAD_REQUEST);
+    public Mensaje eliminarEmpleado(@FormParam("idEmpleado") Integer idEmpleado) {
+
+        if (idEmpleado == null || idEmpleado <= 0) {
+            throw new WebApplicationException(Response.Status.BAD_REQUEST);
         }
-    Mensaje mensaje = EmpleadoDAO.eliminarEmpleado(idEmpleado);
+        Mensaje mensaje = EmpleadoDAO.eliminarEmpleado(idEmpleado);
+
+        return mensaje;
+    }
+
+    @GET
+    @Path("buscarEmpleados/{idEmpleado}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje buscarEmpleados(
+            @PathParam("idEmpleado") Integer idEmpleado) {
+     if(idEmpleado == null || idEmpleado <=0){
+     throw new WebApplicationException(Response.Status.BAD_REQUEST);
+     }
+     return EmpleadoDAO.buscarEmpleados(idEmpleado);
+    }
     
-    return mensaje;
+    @GET
+    @Path("buscarRoles")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje buscarRoles(){
+    return EmpleadoDAO.buscarRoles();
     }
 }
